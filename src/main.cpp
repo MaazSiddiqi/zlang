@@ -13,32 +13,9 @@ public:
 private:
 };
 
-class Token {
-  enum class Type {
-    LParen,
-    RParen,
-    SemiColon,
-    Plus,
-    Minus,
-    Asterisk,
-    Slash,
-    Number,
-    Identifier,
-    Unexpected,
-  }
-
-  Token(Type _type): type(_type) {}
-  Token(Type _type, string _lexeme): type(_type) lexeme(_lexeme) {}
-private:
-  Type type;
-  string lexeme;
-}
-  
-
 Lexer ::Lexer(ifstream &file) {
   // Read the file character by character
   char ch;
-  Token token;
   while (file.get(ch)) {
     cout << ch << " ";
 
