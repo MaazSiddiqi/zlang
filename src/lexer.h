@@ -9,13 +9,15 @@ enum token_type {
   IDENTIFIER,
   LPAREN,
   RPAREN,
+  LCURLY,
+  RCURLY,
   SEMICOLON,
   PRINT,
   PLUS,
   MINUS,
   ASTERISK,
   SLASH,
-  SINGLE_LINE_COMMENT,
+  EQUAL,
 };
 
 struct Token_Literal {
@@ -33,12 +35,15 @@ struct Token {
 const Token_Literal literals[] = {
     {.text = "(", .type = token_type::LPAREN, .name = "left parenthesis"},
     {.text = ")", .type = token_type::RPAREN, .name = "right parenthesis"},
+    {.text = "{", .type = token_type::LCURLY, .name = "left curly brace"},
+    {.text = "}", .type = token_type::RCURLY, .name = "right curly brace"},
     {.text = ";", .type = token_type::SEMICOLON, .name = "semicolon"},
     {.text = "print", .type = token_type::PRINT, .name = "stdio print"},
     {.text = "+", .type = token_type::PLUS, .name = "plus"},
     {.text = "-", .type = token_type::MINUS, .name = "minus"},
     {.text = "*", .type = token_type::ASTERISK, .name = "asterisk"},
     {.text = "/", .type = token_type::SLASH, .name = "slash"},
+    {.text = "=", .type = token_type::EQUAL, .name = "equal"},
 };
 #define literals_size sizeof(literals) / sizeof(Token_Literal)
 

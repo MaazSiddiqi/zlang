@@ -119,6 +119,7 @@ Token Lexer::next() {
       t.len++;
     }
   } else {
+    std::cout << ch << std::endl;
     t.type = token_type::INVALID;
     t.len = 1;
     cursor++;
@@ -131,6 +132,8 @@ std::string token_type_name(token_type type) {
   switch (type) {
   case NUMBER:
     return "number";
+  case IDENTIFIER:
+    return "identifier";
   default:
     for (int i = 0; i < literals_size; i++) {
       if (literals[i].type == type)
