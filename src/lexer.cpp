@@ -31,11 +31,44 @@ bool Lexer::isSpace(char &ch) {
 bool Lexer::isIDstart(char &ch) { return isalpha(ch) || ch == '_'; }
 bool Lexer::isID(char &ch) { return isalnum(ch) || ch == '_'; }
 
-Token Lexer::next() {
+void Lexer::trim_leading_whitespace() {
   // trim leading whitespace
   if (cursor < size && isSpace(content[cursor])) {
     cursor++;
   }
+}
+
+void Lexer::trim_until_char() {
+  trim_leading_whitespace();
+
+  // trim single line leading comments
+  if (cursor + 1 < size && content[cursor] == '/' &&
+      content[cursor + 1] == '/') {
+    while (cursor < size && content[cursor] != '\n') {
+      cursor++;
+    }
+    cursor++;
+  }
+
+  trim_leading_whitespace();
+
+  if (cursor + 1 < size && content[cursor] == '/' &&
+      content[cursor + 1] == ';') {
+    // skip found '/;'
+    cursor += 2;
+    while (cursor + 1 < size && content[cursor] != ';' &&
+           content[cursor + 1] != '/') {
+      cursor++;
+    }
+    // skip found ';/'
+    cursor += 2;
+  }
+
+  trim_leading_whitespace();
+}
+
+Token Lexer::next() {
+  trim_until_char();
 
   Token t = {
       .type = token_type::END,
@@ -95,13 +128,15 @@ Token Lexer::next() {
 };
 
 std::string token_type_name(token_type type) {
-  for (int i = 0; i < literals_size; i++) {
-    if (literals[i].type == type)
-      return literals[i].name;
-  }
-
-  if (type == token_type::NUMBER) {
+  switch (type) {
+  case NUMBER:
     return "number";
+  default:
+    for (int i = 0; i < literals_size; i++) {
+      if (literals[i].type == type)
+        return literals[i].name;
+    }
+    break;
   }
 
   return "unknown token";

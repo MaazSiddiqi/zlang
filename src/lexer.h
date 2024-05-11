@@ -15,6 +15,7 @@ enum token_type {
   MINUS,
   ASTERISK,
   SLASH,
+  SINGLE_LINE_COMMENT,
 };
 
 struct Token_Literal {
@@ -49,10 +50,14 @@ public:
   Token next();
 
 private:
-  bool isSpace(char &ch);
-  bool isIDstart(char &ch);
-  bool isID(char &ch);
   std::string content;
   int size;
   int cursor;
+
+  bool isSpace(char &ch);
+  bool isIDstart(char &ch);
+  bool isID(char &ch);
+
+  void trim_leading_whitespace();
+  void trim_until_char();
 };
