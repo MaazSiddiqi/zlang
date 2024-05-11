@@ -10,7 +10,13 @@ enum token_type {
   LPAREN,
   RPAREN,
   SEMICOLON,
-  KEYWORD,
+  PRINT,
+};
+
+struct Token_Literal {
+  std::string text;
+  token_type type;
+  std::string name;
 };
 
 struct Token {
@@ -18,6 +24,16 @@ struct Token {
   char *lexeme;
   int len;
 };
+
+const Token_Literal literals[] = {
+    {.text = "(", .type = token_type::LPAREN, .name = "left parenthesis"},
+    {.text = ")", .type = token_type::RPAREN, .name = "right parenthesis"},
+    {.text = ";", .type = token_type::SEMICOLON, .name = "semicolon"},
+    {.text = "print", .type = token_type::PRINT, .name = "stdio print"},
+};
+#define literals_size sizeof(literals) / sizeof(Token_Literal)
+
+std::string token_type_name(token_type type);
 
 class Lexer {
 public:

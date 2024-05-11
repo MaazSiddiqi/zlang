@@ -50,44 +50,59 @@ Token Lexer::next() {
   t.lexeme = &content[cursor]; // ch
   char ch = content[cursor];
 
-  switch (ch) {
-  case '(':
-    t.type = token_type::RPAREN;
-    t.len = 1;
-    cursor++;
-    break;
-  case ')':
-    t.type = token_type::LPAREN;
-    t.len = 1;
-    cursor++;
-    break;
-  case ';':
-    t.type = token_type::SEMICOLON;
-    t.len = 1;
-    cursor++;
-    break;
-  default:
-    if (isdigit(ch)) {
-      t.type = token_type::NUMBER;
+  for (int i = 0; i < literals_size; i++) {
+    int _cursor = cursor;
+    int j = 0;
 
-      while (cursor <= size && isdigit(content[cursor])) {
-        cursor++;
-        t.len++;
-      }
-    } else if (isIDstart(ch)) {
-      t.type = token_type::IDENTIFIER;
+    const Token_Literal &l = literals[i];
 
-      while (cursor <= size && isID(content[cursor])) {
-        cursor++;
-        t.len++;
-      }
-    } else {
-      t.type = token_type::INVALID;
-      t.len = 1;
-      cursor++;
+    while (_cursor < size && j < l.text.size()) {
+      if (content[_cursor] != l.text[j])
+        break;
+      _cursor++;
+      j++;
     }
-    break;
+
+    if (j == l.text.size()) {
+      // found literal
+      t.type = l.type;
+      t.len = l.text.size();
+      cursor += t.len;
+      return t;
+    }
+  }
+
+  if (isdigit(ch)) {
+    t.type = token_type::NUMBER;
+    while (cursor <= size && isdigit(content[cursor])) {
+      cursor++;
+      t.len++;
+    }
+  } else if (isIDstart(ch)) {
+    t.type = token_type::IDENTIFIER;
+
+    while (cursor <= size && isID(content[cursor])) {
+      cursor++;
+      t.len++;
+    }
+  } else {
+    t.type = token_type::INVALID;
+    t.len = 1;
+    cursor++;
   }
 
   return t;
 };
+
+std::string token_type_name(token_type type) {
+  for (int i = 0; i < literals_size; i++) {
+    if (literals[i].type == type)
+      return literals[i].name;
+  }
+
+  if (type == token_type::NUMBER) {
+    return "number";
+  }
+
+  return "unknown token";
+}

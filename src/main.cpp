@@ -7,41 +7,6 @@
 
 using namespace std;
 
-std::string token_type_name(token_type type) {
-  std::string name;
-
-  switch (type) {
-  case END:
-    name = "End of file";
-    break;
-  case INVALID:
-    name = "Invalid token";
-    break;
-  case NUMBER:
-    name = "Number";
-    break;
-  case IDENTIFIER:
-    name = "Identifier";
-    break;
-  case LPAREN:
-    name = "Left parenthesis";
-    break;
-  case RPAREN:
-    name = "Rigth parenthesis";
-    break;
-  case SEMICOLON:
-    name = "Semicolon";
-    break;
-  case KEYWORD:
-    name = "Keyword";
-    break;
-  default:
-    name = "Unreachable";
-  }
-
-  return name;
-}
-
 int main() {
   ifstream file("../scripts/print.z");
 
