@@ -17,6 +17,7 @@ int main() {
 
   Lexer lexer(file);
 
+  // print lex report
   Token t = lexer.next();
   while (t.type != token_type::END) {
     std::printf("%s: \'%.*s\'\n", token_type_name(t.type).c_str(), t.len,
