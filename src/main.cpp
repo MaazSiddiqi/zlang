@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <format>
 #include <fstream>
 #include <iostream>
 

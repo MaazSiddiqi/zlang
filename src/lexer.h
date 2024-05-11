@@ -11,6 +11,10 @@ enum token_type {
   RPAREN,
   SEMICOLON,
   PRINT,
+  PLUS,
+  MINUS,
+  ASTERISK,
+  SLASH,
 };
 
 struct Token_Literal {
@@ -30,6 +34,10 @@ const Token_Literal literals[] = {
     {.text = ")", .type = token_type::RPAREN, .name = "right parenthesis"},
     {.text = ";", .type = token_type::SEMICOLON, .name = "semicolon"},
     {.text = "print", .type = token_type::PRINT, .name = "stdio print"},
+    {.text = "+", .type = token_type::PLUS, .name = "plus"},
+    {.text = "-", .type = token_type::MINUS, .name = "minus"},
+    {.text = "*", .type = token_type::ASTERISK, .name = "asterisk"},
+    {.text = "/", .type = token_type::SLASH, .name = "slash"},
 };
 #define literals_size sizeof(literals) / sizeof(Token_Literal)
 
