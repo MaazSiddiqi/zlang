@@ -1,25 +1,22 @@
 #include <fstream>
+#include <stdbool.h>
 #include <string>
 
 enum token_type {
   END,
   INVALID,
-  INT,
-  STRING,
+  NUMBER,
+  IDENTIFIER,
   LPAREN,
   RPAREN,
   SEMICOLON,
   KEYWORD,
 };
 
-class Token {
-public:
-  Token(){};
-  ~Token(){};
-
-private:
+struct Token {
   token_type type;
-  std::string lexeme;
+  char *lexeme;
+  int len;
 };
 
 class Lexer {
@@ -28,6 +25,9 @@ public:
   Token next();
 
 private:
+  bool isSpace(char &ch);
+  bool isIDstart(char &ch);
+  bool isID(char &ch);
   std::string content;
   int size;
   int cursor;
