@@ -119,7 +119,6 @@ Token Lexer::next() {
       t.len++;
     }
   } else {
-    std::cout << ch << std::endl;
     t.type = token_type::INVALID;
     t.len = 1;
     cursor++;
