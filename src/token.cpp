@@ -6,6 +6,8 @@ std::string token_type_name(token_type type) {
     return "number";
   case IDENTIFIER:
     return "identifier";
+  case STRING:
+    return "string";
   default:
     for (int i = 0; i < literals_size; i++) {
       if (literals[i].type == type)

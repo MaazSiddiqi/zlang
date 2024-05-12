@@ -3,6 +3,7 @@
 #include <string>
 
 #include "lexer.h"
+#include "token.h"
 
 Lexer::Lexer(std::ifstream &file) {
   cursor = 0;
@@ -112,6 +113,22 @@ Token Lexer::next() {
       cursor++;
       t.len++;
     }
+  } else if (content[cursor] == '"') {
+    t.type = token_type::STRING;
+
+    // skip first quote
+    cursor++;
+    t.len++;
+
+    // count chars in quotes
+    while (cursor < size && content[cursor] != '"') {
+      cursor++;
+      t.len++;
+    }
+
+    // count last quote and move cursor past it
+    cursor++;
+    t.len++;
   } else if (isIDstart(ch)) {
     t.type = token_type::IDENTIFIER;
 

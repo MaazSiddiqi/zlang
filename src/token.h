@@ -7,6 +7,7 @@ enum token_type {
   END,
   INVALID,
   NUMBER,
+  STRING,
   IDENTIFIER,
   LPAREN,
   RPAREN,
