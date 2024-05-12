@@ -1,6 +1,6 @@
 # tool macros
 CXX := g++
-CXXFLAGS := -Wall -Wextra
+CXXFLAGS := -Wall -Wextra -std=c++17
 CCOBJFLAGS := $(CXXFLAGS) -c
 
 # path macros
