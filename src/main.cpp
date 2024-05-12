@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "lexer.h"
+#include "scanner.h"
 
 using namespace std;
 
@@ -16,13 +17,13 @@ int main() {
   }
 
   Lexer lexer(file);
+  Scanner scanner(lexer);
 
   // print lex report
-  Token t = lexer.next();
-  while (t.type != token_type::END) {
+  while (!scanner.atEnd()) {
+    Token t = scanner.consume();
     std::printf("%s: \'%.*s\'\n", token_type_name(t.type).c_str(), t.len,
                 t.lexeme);
-    t = lexer.next();
   }
 
   // Close the file
