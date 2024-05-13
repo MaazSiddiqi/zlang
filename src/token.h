@@ -20,6 +20,11 @@ enum token_type {
   ASTERISK,
   SLASH,
   EQUAL,
+  OR,
+  AND,
+  FUNC_DECL,
+  RETURN,
+  WHILE,
 };
 
 struct Token_Literal {
@@ -42,11 +47,18 @@ const Token_Literal literals[] = {
     {.text = "}", .type = token_type::RCURLY, .name = "right curly brace"},
     {.text = ";", .type = token_type::SEMICOLON, .name = "semicolon"},
     {.text = "print", .type = token_type::PRINT, .name = "stdio print"},
+    {.text = "return", .type = token_type::RETURN, .name = "return statment"},
+    {.text = "while", .type = token_type::RETURN, .name = "while statment"},
+    {.text = "fn",
+     .type = token_type::FUNC_DECL,
+     .name = "function declaration"},
     {.text = "+", .type = token_type::PLUS, .name = "plus"},
     {.text = "-", .type = token_type::MINUS, .name = "minus"},
     {.text = "*", .type = token_type::ASTERISK, .name = "asterisk"},
     {.text = "/", .type = token_type::SLASH, .name = "slash"},
     {.text = "=", .type = token_type::EQUAL, .name = "equal"},
+    {.text = "||", .type = token_type::OR, .name = "logical or"},
+    {.text = "&&", .type = token_type::AND, .name = "logical and"},
 };
 #define literals_size sizeof(literals) / sizeof(Token_Literal)
 
