@@ -22,6 +22,27 @@ void Parser::throwUnexpected(Token &t, std::string expected) {
   exit(EXIT_FAILURE);
 }
 
+void Parser::expectLiteral(token_type type) {
+  Token &t = scan.peek();
+  const Token_Literal *l = token_type_literal(type);
+
+  if (l == nullptr) {
+    throwUnexpected(t, "literal token");
+  }
+
+  if (t.type != type) {
+    throwUnexpected(t, token_type_literal(type)->text);
+  }
+
+  scan.consume();
+}
+
+Node_Stmt Parser::parseStmt() {
+  Node_Stmt stmt;
+
+  return stmt;
+}
+
 Node_Stmts Parser::parseStmts() {
   Node_Stmts stmts;
 
@@ -32,53 +53,41 @@ Node_Stmts Parser::parseStmts() {
   return stmts;
 }
 
+Node_Scope Parser::parseScope() {
+  Node_Scope scope;
+  Token &t = scan.peek();
+
+  expectLiteral(token_type::LCURLY);
+
+  scope.stmts = parseStmts();
+
+  expectLiteral(token_type::RCURLY);
+
+  return scope;
+}
+
 Node_Prg Parser::parseProgram() {
   std::cout << std::endl;
   std::cout << "=== Parsing program ===" << std::endl;
 
   Node_Prg prg;
 
-  Token &t = scan.peek();
-
   if (scan.peek().type == token_type::END) {
-    std::cout << token_type_name(t.type) << std::endl;
-    printf("'%s'\n", t.lexeme);
+    printf("'%s'\n", scan.peek().lexeme);
     return prg;
   }
 
-  if (t.type != token_type::FUNC_DECL) {
-    throwUnexpected(t, "fn");
-  }
-  scan.consume();
-  t = scan.peek();
+  expectLiteral(token_type::FUNC_DECL);
 
-  if (t.type != token_type::IDENTIFIER && token_lexeme(t) != "main") {
-    throwUnexpected(t, "main");
-  }
-  scan.consume();
-  t = scan.peek();
-
-  if (t.type != token_type::LPAREN) {
-    throwUnexpected(t, "(");
+  if (scan.peek().type != token_type::IDENTIFIER && token_lexeme(t) != "main") {
+    throwUnexpected(scan.peek(), "main");
   }
   scan.consume();
 
-  if (t.type != token_type::RPAREN) {
-    throwUnexpected(t, ")");
-  }
-  scan.consume();
+  expectLiteral(token_type::LPAREN);
+  expectLiteral(token_type::RPAREN);
 
-  if (t.type != token_type::LCURLY) {
-    throwUnexpected(t, "{");
-  }
-  scan.consume();
-
-  prg.stmts = parseStmts();
-
-  if (t.type != token_type::RCURLY) {
-    throwUnexpected(t, "}");
-  }
-  scan.consume();
+  prg.scope = parseScope();
 
   return prg;
 }
