@@ -62,6 +62,8 @@ const Token_Literal literals[] = {
 };
 #define literals_size sizeof(literals) / sizeof(Token_Literal)
 
+const Token_Literal *token_type_literal(token_type type);
+
 // get string representation of token
 std::string token_type_name(token_type type);
 
