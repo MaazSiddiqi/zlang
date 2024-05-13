@@ -8,7 +8,7 @@
 using namespace std;
 
 int main() {
-  ifstream file("../scripts/print.z");
+  ifstream file("../scripts/sample.z");
 
   // Check if the file was opened successfully
   if (!file) {
