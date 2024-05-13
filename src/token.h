@@ -65,4 +65,6 @@ const Token_Literal literals[] = {
 // get string representation of token
 std::string token_type_name(token_type type);
 
+std::string token_lexeme(Token token);
+
 #endif // !TOKEN_H
