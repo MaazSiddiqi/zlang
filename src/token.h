@@ -26,6 +26,7 @@ enum token_type {
   RETURN,
   WHILE,
   IF,
+  LET,
 };
 
 struct Token_Literal {
@@ -48,6 +49,7 @@ const Token_Literal literals[] = {
     {.text = "}", .type = token_type::RCURLY, .name = "right curly brace"},
     {.text = ";", .type = token_type::SEMICOLON, .name = "semicolon"},
     {.text = "print", .type = token_type::PRINT, .name = "stdio print"},
+    {.text = "let", .type = token_type::LET, .name = "let statment"},
     {.text = "return", .type = token_type::RETURN, .name = "return statment"},
     {.text = "while", .type = token_type::RETURN, .name = "while statment"},
     {.text = "if", .type = token_type::IF, .name = "while statment"},

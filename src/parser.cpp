@@ -97,12 +97,13 @@ Node Parser::parseExpr() {
     expr.addToken(scan.consume());
     expr.addNode(parseExpr());
   }
+
   return expr;
 }
 
 Node Parser::parseStmt() {
-  // FIRST: 'fn' | 'while' | 'if' | id | 'return' | number | '('
-  // FOLLOWS: 'fn' | 'while' | 'if' | id | 'return' | number | '(' | '}'
+  // FIRST: 'fn' | 'while' | 'if' | 'let' | id | 'return' | number | '('
+  // FOLLOWS: 'fn' | 'while' | 'if' | 'let' | id | 'return' | number | '(' | '}'
 
   Node stmt;
 
@@ -113,6 +114,8 @@ Node Parser::parseStmt() {
   //   break;
   // case IF:
   //   break;
+  case LET:
+    break;
   case IDENTIFIER:
   case NUMBER:
   case LPAREN:

@@ -18,7 +18,7 @@ using namespace std;
  * stmt                   -> scope
  * stmt                   -> while_stmt
  * stmt                   -> if_stmt
- * stmt                   -> id = expr;
+ * stmt                   -> let id = expr;
  * stmt                   -> return expr;
  * stmt                   -> expr;
  * stmt                   -> ;
