@@ -107,17 +107,17 @@ Node Parser::parseStmt() {
   Node stmt;
 
   switch (scan.peek().type) {
-  case FUNC_DECL:
-    break;
-  case WHILE:
-    break;
-  case IF:
-    break;
+  // case FUNC_DECL:
+  //   break;
+  // case WHILE:
+  //   break;
+  // case IF:
+  //   break;
   case IDENTIFIER:
-    break;
   case NUMBER:
-    break;
   case LPAREN:
+    stmt.addNode(parseExpr());
+    stmt.addToken(expectLiteral(token_type::SEMICOLON));
     break;
   case RETURN:
     stmt.addToken(expectLiteral(token_type::RETURN));
