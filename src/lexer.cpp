@@ -15,7 +15,7 @@ Lexer::Lexer(std::ifstream &file) {
   }
   std::cout << std::endl;
 
-  std::cout << "\n-----\nLex Report: " << size << " chars read" << std::endl;
+  std::cout << "[INFO] Lex Report: " << size << " chars read" << std::endl;
 };
 
 bool Lexer::isSpace(char &ch) {
