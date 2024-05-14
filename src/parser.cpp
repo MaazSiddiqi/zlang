@@ -9,11 +9,7 @@ Parser::Parser(Scanner &scan) : scan(scan) {}
 
 Parser::~Parser() {}
 
-Node Parser::parse() {
-  Node x;
-  parseProgram();
-  return x;
-}
+Node Parser::parse() { return parseProgram(); }
 
 void Parser::throwUnexpected(Token &t, std::string expected) {
   std::cerr << "Unexpected token: '" << token_lexeme(t) << "', expected: '"
@@ -37,31 +33,86 @@ Token Parser::expectLiteral(token_type type) {
   return scan.consume();
 }
 
+Node Parser::parseExpr() {
+  // FIRST: number | id | '('
+  // FOLLOWS: ';' | ')'
+
+  Node expr;
+
+  switch (scan.peek().type) {
+  case NUMBER:
+  case IDENTIFIER:
+    expr.addToken(scan.consume());
+    break;
+  case LPAREN:
+    expr.addToken(expectLiteral(token_type::LPAREN));
+    expr.addNode(parseExpr());
+    expr.addToken(expectLiteral(token_type::RPAREN));
+    break;
+  default:
+    throwUnexpected(scan.peek(), "valid expression");
+    break;
+  }
+
+  return expr;
+}
+
 Node Parser::parseStmt() {
+  // FIRST: 'fn' | 'while' | 'if' | id | 'return' | number | '('
+  // FOLLOWS: 'fn' | 'while' | 'if' | id | 'return' | number | '(' | '}'
+
   Node stmt;
+
+  switch (scan.peek().type) {
+  case FUNC_DECL:
+    break;
+  case WHILE:
+    break;
+  case IF:
+    break;
+  case IDENTIFIER:
+    break;
+  case NUMBER:
+    break;
+  case LPAREN:
+    break;
+  case RETURN:
+    stmt.addToken(expectLiteral(token_type::RETURN));
+    stmt.addNode(parseExpr());
+    stmt.addToken(expectLiteral(token_type::SEMICOLON));
+    break;
+  default:
+    throwUnexpected(scan.peek(), "valid statement");
+    break;
+  }
 
   return stmt;
 }
 
 Node Parser::parseStmts() {
+  // FIRST: 'fn' | 'while' | 'if' | id | 'return' | number | '('
+  // FOLLOWS: '}'
+
   Node stmts;
 
   while (scan.peek().type != token_type::RCURLY) {
-    scan.consume();
+    stmts.addNode(parseStmt());
   }
 
   return stmts;
 }
 
 Node Parser::parseScope() {
+  // FIRST: '{'
+  // FOLLOWS: 'EOF' | '{'
+
   Node scope;
-  Token &t = scan.peek();
 
-  expectLiteral(token_type::LCURLY);
+  scope.addToken(expectLiteral(token_type::LCURLY));
 
-  parseStmts();
+  scope.addNode(parseStmts());
 
-  expectLiteral(token_type::RCURLY);
+  scope.addToken(expectLiteral(token_type::RCURLY));
 
   return scope;
 }
@@ -72,23 +123,18 @@ Node Parser::parseProgram() {
 
   Node prg;
 
-  if (scan.peek().type == token_type::END) {
-    printf("'%s'\n", scan.peek().lexeme);
-    return prg;
-  }
-
-  expectLiteral(token_type::FUNC_DECL);
+  prg.addToken(expectLiteral(token_type::FUNC_DECL));
 
   if (scan.peek().type != token_type::IDENTIFIER ||
       token_lexeme(scan.peek()) != "main") {
     throwUnexpected(scan.peek(), "main");
   }
-  scan.consume();
+  prg.addToken(scan.consume());
 
-  expectLiteral(token_type::LPAREN);
-  expectLiteral(token_type::RPAREN);
+  prg.addToken(expectLiteral(token_type::LPAREN));
+  prg.addToken(expectLiteral(token_type::RPAREN));
 
-  Node scope = parseScope();
+  prg.addNode(parseScope());
 
   return prg;
 }

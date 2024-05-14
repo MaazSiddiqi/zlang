@@ -18,6 +18,7 @@ private:
   Node parseScope();
   Node parseStmts();
   Node parseStmt();
+  Node parseExpr();
 
   Token expectLiteral(token_type type);
   void throwUnexpected(Token &given, std::string expected);
