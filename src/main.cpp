@@ -36,6 +36,7 @@ using namespace std;
  * add_expr               -> mult_expr
  * mult_expr              -> term_expr '*' mult_expr
  * mult_expr              -> term_expr '/' mult_expr
+ * mult_expr              -> term_expr
  * term_expr              -> number
  * term_expr              -> id
  * term_expr              -> (expr)
