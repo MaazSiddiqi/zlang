@@ -79,7 +79,8 @@ Node_Prg Parser::parseProgram() {
 
   expectLiteral(token_type::FUNC_DECL);
 
-  if (scan.peek().type != token_type::IDENTIFIER && token_lexeme(t) != "main") {
+  if (scan.peek().type != token_type::IDENTIFIER &&
+      token_lexeme(scan.peek()) != "main") {
     throwUnexpected(scan.peek(), "main");
   }
   scan.consume();
