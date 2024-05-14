@@ -18,7 +18,10 @@ using namespace std;
  * stmt                   -> scope
  * stmt                   -> while_stmt
  * stmt                   -> if_stmt
+ * stmt                   -> id = expr;
+ * stmt                   -> return expr;
  * stmt                   -> expr;
+ * stmt                   -> ;
  * stmt                   -> ϵ
  * func_decl              -> fn id(args) scope
  * while_stmt             -> while (conditions) scope
@@ -26,8 +29,6 @@ using namespace std;
  * if_tail                -> elsif (conditions) scope if_tail
  * if_tail                -> else scope
  * if_tail                -> ϵ
- * expr                   -> id = expr
- * expr                   -> return expr;
  * expr                   -> add_expr
  * expr                   -> ϵ
  * add_expr               -> mult_expr '+' add_expr
@@ -70,7 +71,9 @@ int main() {
   // }
   //
   Parser parser(scanner);
-  parser.parse();
+  Node prg = parser.parse();
+
+  std::cout << prg << std::endl;
 
   // Close the file
   file.close();
