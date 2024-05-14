@@ -33,7 +33,7 @@ Token Parser::expectLiteral(token_type type) {
   return scan.consume();
 }
 
-Node Parser::parseExpr() {
+Node Parser::parseTermExpr() {
   // FIRST: number | id | '('
   // FOLLOWS: ';' | ')'
 
@@ -54,6 +54,49 @@ Node Parser::parseExpr() {
     break;
   }
 
+  return expr;
+}
+
+Node Parser::parseMultExpr() {
+  // FIRST: number | id | '('
+  // ?FOLLOWS: ';' | ')'
+
+  Node expr;
+
+  if (scan.peek().type == token_type::SEMICOLON ||
+      scan.peek().type == token_type::RPAREN) {
+    return expr;
+  }
+
+  expr.addNode(parseTermExpr());
+
+  if (scan.peek().type == token_type::ASTERISK ||
+      scan.peek().type == token_type::SLASH) {
+    expr.addToken(scan.consume());
+    expr.addNode(parseMultExpr());
+  }
+
+  return expr;
+}
+
+Node Parser::parseExpr() {
+  // FIRST: number | id | '('
+  // ?FOLLOWS: ';' | ')'
+
+  Node expr;
+
+  if (scan.peek().type == token_type::SEMICOLON ||
+      scan.peek().type == token_type::RPAREN) {
+    return expr;
+  }
+
+  expr.addNode(parseMultExpr());
+
+  if (scan.peek().type == token_type::PLUS ||
+      scan.peek().type == token_type::MINUS) {
+    expr.addToken(scan.consume());
+    expr.addNode(parseExpr());
+  }
   return expr;
 }
 
@@ -79,6 +122,9 @@ Node Parser::parseStmt() {
   case RETURN:
     stmt.addToken(expectLiteral(token_type::RETURN));
     stmt.addNode(parseExpr());
+    stmt.addToken(expectLiteral(token_type::SEMICOLON));
+    break;
+  case SEMICOLON:
     stmt.addToken(expectLiteral(token_type::SEMICOLON));
     break;
   default:
@@ -119,7 +165,7 @@ Node Parser::parseScope() {
 
 Node Parser::parseProgram() {
   std::cout << std::endl;
-  std::cout << "=== Parsing program ===" << std::endl;
+  std::cout << "[INFO] Parsing program" << std::endl;
 
   Node prg;
 
@@ -136,5 +182,6 @@ Node Parser::parseProgram() {
 
   prg.addNode(parseScope());
 
+  std::cout << "[INFO] Completed parse successfully" << std::endl;
   return prg;
 }
