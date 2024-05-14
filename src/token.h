@@ -25,6 +25,7 @@ enum token_type {
   FUNC_DECL,
   RETURN,
   WHILE,
+  IF,
 };
 
 struct Token_Literal {
@@ -49,6 +50,7 @@ const Token_Literal literals[] = {
     {.text = "print", .type = token_type::PRINT, .name = "stdio print"},
     {.text = "return", .type = token_type::RETURN, .name = "return statment"},
     {.text = "while", .type = token_type::RETURN, .name = "while statment"},
+    {.text = "if", .type = token_type::IF, .name = "while statment"},
     {.text = "fn",
      .type = token_type::FUNC_DECL,
      .name = "function declaration"},
