@@ -5,13 +5,8 @@
 class Node {
 public:
   Node();
-  Node(Node &&) = default;
-  Node(const Node &) = default;
-  Node &operator=(Node &&) = default;
-  Node &operator=(const Node &) = default;
   ~Node();
 
 private:
-  std::vector<Node *> children;
-  Token token;
+  std::vector<std::variant<Token, Node>> children;
 };

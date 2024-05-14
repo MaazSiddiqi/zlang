@@ -22,7 +22,7 @@ void Parser::throwUnexpected(Token &t, std::string expected) {
   exit(EXIT_FAILURE);
 }
 
-void Parser::expectLiteral(token_type type) {
+Token Parser::expectLiteral(token_type type) {
   Token &t = scan.peek();
   const Token_Literal *l = token_type_literal(type);
 
@@ -34,17 +34,17 @@ void Parser::expectLiteral(token_type type) {
     throwUnexpected(t, token_type_literal(type)->text);
   }
 
-  scan.consume();
+  return scan.consume();
 }
 
-Node_Stmt Parser::parseStmt() {
-  Node_Stmt stmt;
+Node Parser::parseStmt() {
+  Node stmt;
 
   return stmt;
 }
 
-Node_Stmts Parser::parseStmts() {
-  Node_Stmts stmts;
+Node Parser::parseStmts() {
+  Node stmts;
 
   while (scan.peek().type != token_type::RCURLY) {
     scan.consume();
@@ -53,24 +53,24 @@ Node_Stmts Parser::parseStmts() {
   return stmts;
 }
 
-Node_Scope Parser::parseScope() {
-  Node_Scope scope;
+Node Parser::parseScope() {
+  Node scope;
   Token &t = scan.peek();
 
   expectLiteral(token_type::LCURLY);
 
-  scope.stmts = parseStmts();
+  parseStmts();
 
   expectLiteral(token_type::RCURLY);
 
   return scope;
 }
 
-Node_Prg Parser::parseProgram() {
+Node Parser::parseProgram() {
   std::cout << std::endl;
   std::cout << "=== Parsing program ===" << std::endl;
 
-  Node_Prg prg;
+  Node prg;
 
   if (scan.peek().type == token_type::END) {
     printf("'%s'\n", scan.peek().lexeme);
@@ -79,7 +79,7 @@ Node_Prg Parser::parseProgram() {
 
   expectLiteral(token_type::FUNC_DECL);
 
-  if (scan.peek().type != token_type::IDENTIFIER &&
+  if (scan.peek().type != token_type::IDENTIFIER ||
       token_lexeme(scan.peek()) != "main") {
     throwUnexpected(scan.peek(), "main");
   }
@@ -88,7 +88,7 @@ Node_Prg Parser::parseProgram() {
   expectLiteral(token_type::LPAREN);
   expectLiteral(token_type::RPAREN);
 
-  prg.scope = parseScope();
+  Node scope = parseScope();
 
   return prg;
 }
