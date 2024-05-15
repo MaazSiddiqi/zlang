@@ -12,9 +12,9 @@ Parser::~Parser() {}
 Node Parser::parse() { return parseProgram(); }
 
 void Parser::throwUnexpected(Token &t, std::string expected) {
-  std::cerr << "Unexpected token: '" << token_lexeme(t) << "', expected: '"
-            << expected << "'" << std::endl;
-  std::cout << "=== Aborting parse (ERROR) ===" << std::endl;
+  std::cerr << "[ERROR] Unexpected token: '" << token_lexeme(t)
+            << "', expected: '" << expected << "'" << std::endl;
+  std::cout << "[INFO] Aborting parse (ERROR)" << std::endl;
   exit(EXIT_FAILURE);
 }
 
