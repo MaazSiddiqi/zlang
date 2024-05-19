@@ -208,9 +208,7 @@ Node Parser::parseScope() {
   Node scope;
 
   scope.addToken(expectLiteral(token_type::LCURLY));
-
   scope.addNode(parseStmts());
-
   scope.addToken(expectLiteral(token_type::RCURLY));
 
   return scope;
@@ -232,7 +230,6 @@ Node Parser::parseProgram() {
 
   prg.addToken(expectLiteral(token_type::LPAREN));
   prg.addToken(expectLiteral(token_type::RPAREN));
-
   prg.addNode(parseScope());
 
   std::cout << "[INFO] Completed parse successfully" << std::endl;
