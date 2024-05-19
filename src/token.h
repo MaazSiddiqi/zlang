@@ -27,6 +27,11 @@ enum class token_type {
   ASTERISK,
   SLASH,
   EQUAL,
+  NOTEQ,
+  GT,
+  LT,
+  GTE,
+  LTE,
   OR,
   AND,
 };
@@ -64,6 +69,11 @@ const std::vector<Token_Literal> literals = {
     {.text = "*", .type = token_type::ASTERISK, .name = "asterisk"},
     {.text = "/", .type = token_type::SLASH, .name = "slash"},
     {.text = "=", .type = token_type::EQUAL, .name = "equal"},
+    {.text = "!=", .type = token_type::NOTEQ, .name = "not equal"},
+    {.text = ">", .type = token_type::GT, .name = "greater than"},
+    {.text = ">=", .type = token_type::GTE, .name = "greater than or equal"},
+    {.text = "<", .type = token_type::LT, .name = "less than"},
+    {.text = "<=", .type = token_type::LTE, .name = "less than or equal"},
     {.text = "||", .type = token_type::OR, .name = "logical or"},
     {.text = "&&", .type = token_type::AND, .name = "logical and"},
 };
