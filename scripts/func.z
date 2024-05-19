@@ -1,1 +1,1 @@
-fn main() { fn hello(a) {} }
+fn main() { fn hello(a, b, c) {} }

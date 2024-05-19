@@ -114,16 +114,16 @@ Node Parser::parseExpr() {
 Node Parser::parseArgs() {
   Node args;
 
-  if (scan.peek().type == token_type::LPAREN) {
+  if (scan.peek().type == token_type::RPAREN) {
     return args;
   }
 
   args.addNode(parseExpr());
 
-  // while (scan.peek().type != token_type::LPAREN) {
-  //   args.addToken(expectLiteral(token_type::COMMA));
-  //   args.addNode(parseExpr());
-  // }
+  while (scan.peek().type != token_type::RPAREN) {
+    args.addToken(expectLiteral(token_type::COMMA));
+    args.addNode(parseExpr());
+  }
 
   return args;
 }
