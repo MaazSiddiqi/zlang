@@ -124,6 +124,17 @@ Node Parser::parseStmt() {
     //   break;
     // case IF:
     //   break;
+  case token_type::LET:
+    stmt.addToken(expectLiteral(token_type::LET));
+
+    if (scan.peek().type != token_type::IDENTIFIER) {
+      throwUnexpected(scan.peek(), "valid identifier");
+    }
+    stmt.addToken(scan.consume());
+
+    stmt.addToken(expectLiteral(token_type::EQUAL));
+    stmt.addNode(parseExpr());
+    stmt.addToken(expectLiteral(token_type::SEMICOLON));
     break;
   case token_type::IDENTIFIER:
   case token_type::NUMBER:
