@@ -18,6 +18,7 @@ private:
   Node parseScope();
   Node parseStmts();
   Node parseStmt();
+  Node parseArgs();
   Node parseExpr();
   Node parseMultExpr();
   Node parseTermExpr();

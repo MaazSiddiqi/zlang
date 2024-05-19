@@ -111,15 +111,45 @@ Node Parser::parseExpr() {
   return expr;
 }
 
+Node Parser::parseArgs() {
+  Node args;
+
+  if (scan.peek().type == token_type::LPAREN) {
+    return args;
+  }
+
+  args.addNode(parseExpr());
+
+  // while (scan.peek().type != token_type::LPAREN) {
+  //   args.addToken(expectLiteral(token_type::COMMA));
+  //   args.addNode(parseExpr());
+  // }
+
+  return args;
+}
+
 Node Parser::parseStmt() {
   // FIRST: 'fn' | 'while' | 'if' | 'let' | id | 'return' | number | '('
-  // FOLLOWS: 'fn' | 'while' | 'if' | 'let' | id | 'return' | number | '(' | '}'
+  // FOLLOWS: 'fn' | 'while' | 'if' | 'let' | id | 'return' | number | '(' |
+  // '}'
 
   Node stmt;
 
   switch (scan.peek().type) {
-    // case FUNC_DECL:
-    //   break;
+  case token_type::FUNC_DECL:
+    stmt.addToken(expectLiteral(token_type::FUNC_DECL));
+
+    if (scan.peek().type != token_type::IDENTIFIER) {
+      throwUnexpected(scan.peek(), "valid identifier");
+    }
+    stmt.addToken(scan.consume());
+
+    stmt.addToken(expectLiteral(token_type::LPAREN));
+    stmt.addNode(parseArgs());
+    stmt.addToken(expectLiteral(token_type::RPAREN));
+
+    stmt.addNode(parseScope());
+    break;
     // case WHILE:
     //   break;
     // case IF:
