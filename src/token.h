@@ -2,10 +2,17 @@
 #define TOKEN_H
 
 #include <string>
+#include <vector>
 
-enum token_type {
+enum class token_type {
   END,
   INVALID,
+  FUNC_DECL,
+  RETURN,
+  WHILE,
+  IF,
+  LET,
+  MINUS,
   NUMBER,
   STRING,
   IDENTIFIER,
@@ -16,17 +23,11 @@ enum token_type {
   SEMICOLON,
   PRINT,
   PLUS,
-  MINUS,
   ASTERISK,
   SLASH,
   EQUAL,
   OR,
   AND,
-  FUNC_DECL,
-  RETURN,
-  WHILE,
-  IF,
-  LET,
 };
 
 struct Token_Literal {
@@ -42,17 +43,17 @@ struct Token {
 };
 
 // list of constant tokens
-const Token_Literal literals[] = {
+const std::vector<Token_Literal> literals = {
     {.text = "(", .type = token_type::LPAREN, .name = "left parenthesis"},
     {.text = ")", .type = token_type::RPAREN, .name = "right parenthesis"},
     {.text = "{", .type = token_type::LCURLY, .name = "left curly brace"},
     {.text = "}", .type = token_type::RCURLY, .name = "right curly brace"},
     {.text = ";", .type = token_type::SEMICOLON, .name = "semicolon"},
     {.text = "print", .type = token_type::PRINT, .name = "stdio print"},
-    {.text = "let", .type = token_type::LET, .name = "let statment"},
-    {.text = "return", .type = token_type::RETURN, .name = "return statment"},
-    {.text = "while", .type = token_type::RETURN, .name = "while statment"},
-    {.text = "if", .type = token_type::IF, .name = "while statment"},
+    {.text = "let", .type = token_type::LET, .name = "let statement"},
+    {.text = "return", .type = token_type::RETURN, .name = "return statement"},
+    {.text = "while", .type = token_type::WHILE, .name = "while statement"},
+    {.text = "if", .type = token_type::IF, .name = "while statement"},
     {.text = "fn",
      .type = token_type::FUNC_DECL,
      .name = "function declaration"},
@@ -64,7 +65,6 @@ const Token_Literal literals[] = {
     {.text = "||", .type = token_type::OR, .name = "logical or"},
     {.text = "&&", .type = token_type::AND, .name = "logical and"},
 };
-#define literals_size sizeof(literals) / sizeof(Token_Literal)
 
 const Token_Literal *token_type_literal(token_type type);
 

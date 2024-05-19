@@ -1,7 +1,7 @@
 #include "token.h"
 
 const Token_Literal *token_type_literal(token_type type) {
-  for (int i = 0; i < literals_size; i++) {
+  for (size_t i = 0; i < literals.size(); i++) {
     if (literals[i].type == type)
       return &literals[i];
   }
@@ -11,11 +11,11 @@ const Token_Literal *token_type_literal(token_type type) {
 
 std::string token_type_name(token_type type) {
   switch (type) {
-  case NUMBER:
+  case token_type::NUMBER:
     return "number";
-  case IDENTIFIER:
+  case token_type::IDENTIFIER:
     return "identifier";
-  case STRING:
+  case token_type::STRING:
     return "string";
   default:
     const Token_Literal *l = token_type_literal(type);

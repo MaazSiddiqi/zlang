@@ -1,4 +1,3 @@
-#include <cstdio>
 #include <cstdlib>
 #include <iostream>
 
@@ -40,11 +39,11 @@ Node Parser::parseTermExpr() {
   Node expr;
 
   switch (scan.peek().type) {
-  case NUMBER:
-  case IDENTIFIER:
+  case token_type::NUMBER:
+  case token_type::IDENTIFIER:
     expr.addToken(scan.consume());
     break;
-  case LPAREN:
+  case token_type::LPAREN:
     expr.addToken(expectLiteral(token_type::LPAREN));
     expr.addNode(parseExpr());
     expr.addToken(expectLiteral(token_type::RPAREN));
@@ -108,26 +107,25 @@ Node Parser::parseStmt() {
   Node stmt;
 
   switch (scan.peek().type) {
-  // case FUNC_DECL:
-  //   break;
-  // case WHILE:
-  //   break;
-  // case IF:
-  //   break;
-  case LET:
+    // case FUNC_DECL:
+    //   break;
+    // case WHILE:
+    //   break;
+    // case IF:
+    //   break;
     break;
-  case IDENTIFIER:
-  case NUMBER:
-  case LPAREN:
+  case token_type::IDENTIFIER:
+  case token_type::NUMBER:
+  case token_type::LPAREN:
     stmt.addNode(parseExpr());
     stmt.addToken(expectLiteral(token_type::SEMICOLON));
     break;
-  case RETURN:
+  case token_type::RETURN:
     stmt.addToken(expectLiteral(token_type::RETURN));
     stmt.addNode(parseExpr());
     stmt.addToken(expectLiteral(token_type::SEMICOLON));
     break;
-  case SEMICOLON:
+  case token_type::SEMICOLON:
     stmt.addToken(expectLiteral(token_type::SEMICOLON));
     break;
   default:
