@@ -85,9 +85,9 @@ Token Lexer::next() {
   t.lexeme = &content[cursor]; // ch
   char ch = content[cursor];
 
-  for (int i = 0; i < literals_size; i++) {
+  for (size_t i = 0; i < literals.size(); i++) {
     int _cursor = cursor;
-    int j = 0;
+    size_t j = 0;
 
     const Token_Literal &l = literals[i];
 
