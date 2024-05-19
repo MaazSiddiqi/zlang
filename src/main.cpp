@@ -53,7 +53,7 @@ using namespace std;
  */
 
 int main() {
-  ifstream file("../scripts/sample.z");
+  ifstream file("../scripts/let.z");
 
   // Check if the file was opened successfully
   if (!file) {
