@@ -24,6 +24,8 @@ private:
 
   Token expectLiteral(token_type type);
   void throwUnexpected(Token &given, std::string expected);
+
+  std::string currTokenInfo();
 };
 
 #endif // PARSER_H

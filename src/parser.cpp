@@ -8,12 +8,23 @@ Parser::Parser(Scanner &scan) : scan(scan) {}
 
 Parser::~Parser() {}
 
+std::string Parser::currTokenInfo() {
+  std::string info;
+  info += token_type_name(scan.peek().type);
+  info += " ";
+  info += token_lexeme(scan.peek());
+
+  return info;
+}
+
 Node Parser::parse() { return parseProgram(); }
 
 void Parser::throwUnexpected(Token &t, std::string expected) {
   std::cerr << "[ERROR] Unexpected token: '" << token_lexeme(t)
             << "', expected: '" << expected << "'" << std::endl;
   std::cout << "[INFO] Aborting parse (ERROR)" << std::endl;
+  std::cerr << "[ERROR] Parse failed at token: " << currTokenInfo()
+            << std::endl;
   exit(EXIT_FAILURE);
 }
 
