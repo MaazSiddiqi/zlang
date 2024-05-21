@@ -41,9 +41,11 @@ using namespace std;
  * term_expr              -> id
  * term_expr              -> (expr)
  * conditions             -> condition conditions_tail
+ * conditions             -> (conditions)
  * conditions_tail        -> lop conditions
  * conditions_tail        -> ϵ
  * condition              -> expr cmp expr
+ * condition              -> (condition)
  * args                   -> id args_tail
  * args_tail              -> , id args_tail
  * args_tail              -> ϵ
@@ -65,17 +67,17 @@ int main() {
   Scanner scanner(lexer);
 
   // print lex report
-  while (!scanner.atEnd()) {
-    Token t = scanner.consume();
-    std::printf("\'%.*s\': %s\n", t.len, t.lexeme,
-                token_type_name(t.type).c_str());
-  }
+  // while (!scanner.atEnd()) {
+  //   Token t = scanner.consume();
+  //   std::printf("\'%.*s\': %s\n", t.len, t.lexeme,
+  //               token_type_name(t.type).c_str());
+  // }
 
-  // Parser parser(scanner);
-  // Node prg = parser.parse();
-  //
-  // std::cout << prg << std::endl;
-  //
+  Parser parser(scanner);
+  Node prg = parser.parse();
+
+  std::cout << prg << std::endl;
+
   // Close the file
   file.close();
   return 0;

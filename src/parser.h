@@ -19,6 +19,8 @@ private:
   Node parseStmts();
   Node parseStmt();
   Node parseArgs();
+  Node parseConds();
+  Node parseCond();
   Node parseExpr();
   Node parseMultExpr();
   Node parseTermExpr();

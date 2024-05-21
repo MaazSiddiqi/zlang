@@ -20,11 +20,14 @@ std::string Parser::currTokenInfo() {
 Node Parser::parse() { return parseProgram(); }
 
 void Parser::throwUnexpected(Token &t, std::string expected) {
-  std::cerr << "[ERROR] Unexpected token: '" << token_lexeme(t)
-            << "', expected: '" << expected << "'" << std::endl;
-  std::cout << "[INFO] Aborting parse (ERROR)" << std::endl;
-  std::cerr << "[ERROR] Parse failed at token: " << currTokenInfo()
+  std::cerr << "\033[31m"
+            << "[ERROR] Unexpected token: '" << token_lexeme(t) << "' ("
+            << token_type_name(t.type) << "), expected: '" << expected << "'"
+            << "\033[0m" << std::endl;
+  std::cerr << "\033[31m"
+            << "[ERROR] Parse failed at token: " << currTokenInfo() << "\033[0m"
             << std::endl;
+  std::cout << "[INFO] Aborting parse (ERROR)" << std::endl;
   exit(EXIT_FAILURE);
 }
 
@@ -128,6 +131,84 @@ Node Parser::parseArgs() {
   return args;
 }
 
+Node Parser::parseCond() {
+  Node cond;
+
+  switch (scan.peek().type) {
+  case token_type::LPAREN:
+    cond.addToken(expectLiteral(token_type::LPAREN));
+    cond.addNode(parseCond());
+    cond.addToken(expectLiteral(token_type::RPAREN));
+    break;
+  default:
+    cond.addNode(parseExpr());
+
+    switch (scan.peek().type) {
+    case token_type::EQUAL:
+      cond.addToken(expectLiteral(token_type::EQUAL));
+      cond.addToken(expectLiteral(token_type::EQUAL));
+      break;
+    case token_type::GT:
+      cond.addToken(expectLiteral(token_type::GT));
+      if (scan.peek().type == token_type::EQUAL) {
+        cond.addToken(expectLiteral(token_type::EQUAL));
+      }
+      break;
+    case token_type::LT:
+      cond.addToken(expectLiteral(token_type::LT));
+      if (scan.peek().type == token_type::EQUAL) {
+        cond.addToken(expectLiteral(token_type::EQUAL));
+      }
+      break;
+    case token_type::NOT:
+      cond.addToken(expectLiteral(token_type::NOT));
+      cond.addToken(expectLiteral(token_type::EQUAL));
+      break;
+    default:
+      throwUnexpected(scan.peek(), "valid comparator operator");
+      break;
+    }
+
+    cond.addNode(parseExpr());
+    break;
+  }
+
+  return cond;
+}
+
+Node Parser::parseConds() {
+  Node conds;
+
+  switch (scan.peek().type) {
+  case token_type::LPAREN:
+    conds.addToken(expectLiteral(token_type::LPAREN));
+    conds.addNode(parseConds());
+    conds.addToken(expectLiteral(token_type::RPAREN));
+    break;
+  default:
+    conds.addNode(parseCond());
+
+    while (scan.peek().type != token_type::RPAREN) {
+      switch (scan.peek().type) {
+      case token_type::OR:
+        conds.addToken(expectLiteral(token_type::OR));
+        break;
+      case token_type::AND:
+        conds.addToken(expectLiteral(token_type::AND));
+        break;
+      default:
+        throwUnexpected(scan.peek(), "valid logical operator");
+        break;
+      }
+
+      conds.addNode(parseConds());
+    }
+
+    break;
+  }
+  return conds;
+}
+
 Node Parser::parseStmt() {
   // FIRST: 'fn' | 'while' | 'if' | 'let' | id | 'return' | number | '('
   // FOLLOWS: 'fn' | 'while' | 'if' | 'let' | id | 'return' | number | '(' |
@@ -150,8 +231,15 @@ Node Parser::parseStmt() {
 
     stmt.addNode(parseScope());
     break;
-    // case WHILE:
-    //   break;
+  case token_type::WHILE:
+    stmt.addToken(expectLiteral(token_type::WHILE));
+
+    stmt.addToken(expectLiteral(token_type::LPAREN));
+    stmt.addNode(parseConds());
+    stmt.addToken(expectLiteral(token_type::RPAREN));
+
+    stmt.addNode(parseScope());
+    break;
     // case IF:
     //   break;
   case token_type::LET:

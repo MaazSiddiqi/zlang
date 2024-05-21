@@ -1,1 +1,1 @@
-fn main() { while (a == b) {} }
+fn main() { while (a == b && (b >= a) && 1 == 1) {} }
