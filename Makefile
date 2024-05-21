@@ -1,5 +1,5 @@
 # tool macros
-CXX := g++
+CXX := clang++
 CXXFLAGS := -Wall -Wextra -std=c++17
 CCOBJFLAGS := $(CXXFLAGS) -c
 
