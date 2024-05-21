@@ -1,6 +1,7 @@
 #include <cctype>
 #include <iostream>
 #include <string>
+#include <string_view>
 
 #include "lexer.h"
 #include "token.h"
@@ -83,31 +84,22 @@ Token Lexer::next() {
   }
 
   t.lexeme = &content[cursor]; // ch
-  char ch = content[cursor];
 
-  for (size_t i = 0; i < literals.size(); i++) {
-    int _cursor = cursor;
-    size_t j = 0;
-
-    const Token_Literal &l = literals[i];
-
-    while (_cursor < size && j < l.text.size()) {
-      if (content[_cursor] != l.text[j])
-        break;
-      _cursor++;
-      j++;
+  std::string_view _content = content;
+  _content = _content.substr(cursor, content.size());
+  for (auto &l : literals) {
+    if (_content.compare(0, l.text.size(), l.text) != 0) {
+      continue;
     }
 
-    if (j == l.text.size()) {
-      // found literal
-      t.type = l.type;
-      t.len = l.text.size();
-      cursor += t.len;
-      return t;
-    }
+    t.type = l.type;
+    t.len = l.text.size();
+    cursor += t.len;
+
+    return t;
   }
 
-  if (isdigit(ch)) {
+  if (isdigit(content[cursor])) {
     t.type = token_type::NUMBER;
     while (cursor <= size && isdigit(content[cursor])) {
       cursor++;
@@ -129,7 +121,7 @@ Token Lexer::next() {
     // count last quote and move cursor past it
     cursor++;
     t.len++;
-  } else if (isIDstart(ch)) {
+  } else if (isIDstart(content[cursor])) {
     t.type = token_type::IDENTIFIER;
 
     while (cursor <= size && isID(content[cursor])) {
