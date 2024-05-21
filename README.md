@@ -73,8 +73,10 @@ Semantic Productions Implemented:
 
 The roadmap for the `zlang` project includes the following milestones:
 
-1. Implementing the parser to generate the AST.
-2. Constructing the Abstract Syntax Tree (AST) and decorating it with LLVM IR Code.
-3. Generate Binary through `llvm`
-4. Testing and debugging the language implementation to ensure correctness and reliability.
-5. Documenting the language specification, usage, and examples.
+1. Tokenizing `zlang` scripts and performing lexical analysis.
+2. Implementing the parser to generate the AST.
+3. Constructing the Abstract Syntax Tree (AST)
+4. Decorating AST with LLVM IR Code.
+5. Generating Binary through `llvm`
+6. Testing and debugging the language implementation to ensure correctness and reliability.
+7. Documenting the language specification, usage, and examples.
