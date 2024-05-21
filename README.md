@@ -2,7 +2,9 @@
 
 ## Overview
 
-`zlang` is a custom programming language developed as an exploratory project around programming language development. This project aims to implement a complete language utilizing LLVM as a backend. The goal is to build an interprator for the langauge in the future as well.
+`zlang` is a custom programming language developed as an exploratory project around programming language development. This project aims to implement a complete language utilizing LLVM as a backend. The compiler will compile `zlang` code to LLVM Intermediate Representation (IR) Code, which LLVM can take to further optimize and build binaries on multiple architectures.
+
+The goal is to build an interprator for the langauge in the future as well.
 
 ### Grammar
 
