@@ -4,7 +4,7 @@
 
 `zlang` is a custom programming language developed as an exploratory project around programming language development. This project aims to implement a complete language utilizing LLVM as a backend. The compiler will compile `zlang` code to LLVM Intermediate Representation (IR) Code, which LLVM can take to further optimize and build binaries on multiple architectures.
 
-The goal is to build an interprator for the langauge in the future as well.
+The goal is to build an interpretor for the language in the future as well.
 
 ### Grammar
 
@@ -65,11 +65,11 @@ Semantic Productions Implemented:
 - [x] Statements
 - [x] Function Declarations
 - [x] While Loops
-- [ ] If Statments
+- [ ] If Statements
 - [x] Expressions
 - [x] Conditions
 - [x] Arguments
-- [x] Algebra/Comparor/Logic Operators
+- [x] Algebra/Comparison/Logic Operators
 
 ## Roadmap
 
