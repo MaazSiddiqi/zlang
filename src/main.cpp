@@ -8,52 +8,6 @@
 
 using namespace std;
 
-/*
- * === Grammer ===
- * program                -> fn main() scope EOF
- * scope                  -> {stmts}
- * stmts                  -> stmt stmts
- * stmts                  -> ϵ
- * stmt                   -> func_decl
- * stmt                   -> scope
- * stmt                   -> while_stmt
- * stmt                   -> if_stmt
- * stmt                   -> let id = expr;
- * stmt                   -> return expr;
- * stmt                   -> expr;
- * stmt                   -> ;
- * stmt                   -> ϵ
- * func_decl              -> fn id(args) scope
- * while_stmt             -> while (conditions) scope
- * if_stmt                -> if (conditions) scope if_tail
- * if_tail                -> elsif (conditions) scope if_tail
- * if_tail                -> else scope
- * if_tail                -> ϵ
- * expr                   -> add_expr
- * expr                   -> ϵ
- * add_expr               -> mult_expr '+' add_expr
- * add_expr               -> mult_expr '-' add_expr
- * add_expr               -> mult_expr
- * mult_expr              -> term_expr '*' mult_expr
- * mult_expr              -> term_expr '/' mult_expr
- * mult_expr              -> term_expr
- * term_expr              -> number
- * term_expr              -> id
- * term_expr              -> (expr)
- * conditions             -> condition conditions_tail
- * conditions             -> (conditions)
- * conditions_tail        -> lop conditions
- * conditions_tail        -> ϵ
- * condition              -> expr cmp expr
- * condition              -> (condition)
- * args                   -> id args_tail
- * args_tail              -> , id args_tail
- * args_tail              -> ϵ
- * op                     -> '+' | '-' | '*' | '/'
- * lop                    -> '||' | '&&'
- * cmp                    -> '<' | '>' | '<=' | '>=' | '==' | '!='
- */
-
 int main() {
   ifstream file("scripts/if.z");
 
