@@ -37,7 +37,9 @@ mult_expr              -> term_expr '*' mult_expr
 mult_expr              -> term_expr '/' mult_expr
 mult_expr              -> term_expr
 term_expr              -> number
-term_expr              -> id
+term_expr              -> id term_expr_tail
+term_expr_tail         -> ϵ
+term_expr_tail         -> (params)
 term_expr              -> (expr)
 conditions             -> condition conditions_tail
 conditions             -> (conditions)
@@ -49,6 +51,10 @@ args                   -> id args_tail
 args                   -> ϵ
 args_tail              -> , id args_tail
 args_tail              -> ϵ
+params                 -> expr params_tail
+params                 -> ϵ
+params                 -> , expr params_tail
+params_tail            -> ϵ
 op                     -> '+' | '-' | '*' | '/'
 lop                    -> '||' | '&&'
 cmp                    -> '<' | '>' | '<=' | '>=' | '==' | '!='
