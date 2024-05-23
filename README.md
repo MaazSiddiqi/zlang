@@ -30,11 +30,9 @@ if_stmt                -> if (conditions) scope if_tail
 if_tail                -> elsif (conditions) scope if_tail
 if_tail                -> else scope
 if_tail                -> ϵ
-expr                   -> add_expr
-expr                   -> ϵ
-add_expr               -> mult_expr '+' add_expr
-add_expr               -> mult_expr '-' add_expr
-add_expr               -> mult_expr
+expr                   -> mult_expr '+' expr
+expr                   -> mult_expr '-' expr
+expr                   -> mult_expr
 mult_expr              -> term_expr '*' mult_expr
 mult_expr              -> term_expr '/' mult_expr
 mult_expr              -> term_expr

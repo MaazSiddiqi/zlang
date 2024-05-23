@@ -98,17 +98,16 @@ Node Parser::parseExpr() {
 
   Node expr;
 
-  if (scan.peek().type == token_type::SEMICOLON ||
-      scan.peek().type == token_type::RPAREN) {
-    return expr;
-  }
-
   expr.addNode(parseMultExpr());
 
-  if (scan.peek().type == token_type::PLUS ||
-      scan.peek().type == token_type::MINUS) {
+  switch (scan.peek().type) {
+  case token_type::PLUS:
+  case token_type::MINUS:
     expr.addToken(scan.consume());
     expr.addNode(parseExpr());
+    break;
+  default:
+    break;
   }
 
   return expr;
