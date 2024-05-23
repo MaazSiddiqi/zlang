@@ -13,7 +13,8 @@ std::ostream &operator<<(std::ostream &os, const Node &node) {
   for (auto &el : node.children) {
     if (std::holds_alternative<Token>(el)) {
       Token t = std::get<Token>(el);
-      os << token_lexeme(t) << std::endl;
+      std::printf("\'%.*s\': %s\n", t.len, t.lexeme,
+                  token_type_name(t.type).c_str());
 
     } else if (std::holds_alternative<Node>(el)) {
       Node n = std::get<Node>(el);

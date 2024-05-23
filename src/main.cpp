@@ -55,7 +55,7 @@ using namespace std;
  */
 
 int main() {
-  ifstream file("scripts/conditions.z");
+  ifstream file("scripts/if.z");
 
   // Check if the file was opened successfully
   if (!file) {

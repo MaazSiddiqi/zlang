@@ -240,8 +240,15 @@ Node Parser::parseStmt() {
 
     stmt.addNode(parseScope());
     break;
-    // case IF:
-    //   break;
+  case token_type::IF:
+    stmt.addToken(expectLiteral(token_type::IF));
+
+    stmt.addToken(expectLiteral(token_type::LPAREN));
+    stmt.addNode(parseConds());
+    stmt.addToken(expectLiteral(token_type::RPAREN));
+
+    stmt.addNode(parseScope());
+    break;
   case token_type::LET:
     stmt.addToken(expectLiteral(token_type::LET));
 

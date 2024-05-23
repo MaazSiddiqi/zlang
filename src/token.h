@@ -58,7 +58,7 @@ const std::vector<Token_Literal> literals = {
     {.text = "let", .type = token_type::LET, .name = "let statement"},
     {.text = "return", .type = token_type::RETURN, .name = "return statement"},
     {.text = "while", .type = token_type::WHILE, .name = "while statement"},
-    {.text = "if", .type = token_type::IF, .name = "while statement"},
+    {.text = "if", .type = token_type::IF, .name = "if statement"},
     {.text = "fn",
      .type = token_type::FUNC_DECL,
      .name = "function declaration"},
