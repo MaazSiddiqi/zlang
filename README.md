@@ -69,6 +69,7 @@ Semantic Productions Implemented:
 - [x] Program
 - [x] Statements
 - [x] Function Declarations
+- [x] Function Calls
 - [x] While Loops
 - [x] If Statements
 - [x] Expressions

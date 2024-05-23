@@ -24,6 +24,7 @@ private:
   Node parseExpr();
   Node parseMultExpr();
   Node parseTermExpr();
+  Node parseParams();
 
   Token expectLiteral(token_type type);
   void throwUnexpected(Token &given, std::string expected);

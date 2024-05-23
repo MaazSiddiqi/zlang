@@ -46,6 +46,23 @@ Token Parser::expectLiteral(token_type type) {
   return scan.consume();
 }
 
+Node Parser::parseParams() {
+  Node params;
+
+  if (scan.peek().type == token_type::RPAREN) {
+    return params;
+  }
+
+  params.addNode(parseExpr());
+
+  while (scan.peek().type != token_type::RPAREN) {
+    params.addToken(expectLiteral(token_type::COMMA));
+    params.addNode(parseExpr());
+  }
+
+  return params;
+}
+
 Node Parser::parseTermExpr() {
   // FIRST: number | id | '('
   // FOLLOWS: ';' | ')'
@@ -54,8 +71,16 @@ Node Parser::parseTermExpr() {
 
   switch (scan.peek().type) {
   case token_type::NUMBER:
+    expr.addToken(scan.consume());
+    break;
   case token_type::IDENTIFIER:
     expr.addToken(scan.consume());
+
+    if (scan.peek().type == token_type::LPAREN) {
+      expr.addToken(expectLiteral(token_type::LPAREN));
+      expr.addNode(parseParams());
+      expr.addToken(expectLiteral(token_type::RPAREN));
+    }
     break;
   case token_type::LPAREN:
     expr.addToken(expectLiteral(token_type::LPAREN));

@@ -9,7 +9,7 @@
 using namespace std;
 
 int main() {
-  ifstream file("scripts/if.z");
+  ifstream file("scripts/func_call.z");
 
   // Check if the file was opened successfully
   if (!file) {
