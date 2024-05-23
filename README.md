@@ -48,6 +48,7 @@ conditions_tail        -> ϵ
 condition              -> expr cmp expr
 condition              -> (condition)
 args                   -> id args_tail
+args                   -> ϵ
 args_tail              -> , id args_tail
 args_tail              -> ϵ
 op                     -> '+' | '-' | '*' | '/'
